@@ -1,8 +1,8 @@
-import { apiBaseUrl } from "./apiConfig"
+import { apiBaseUrl, sportsApiBaseUrl } from "./apiConfig"
 
 export const api = {
-    getPlayer(playerName) {
-        return fetch(`${apiBaseUrl}/${playerName}`);
+    getPlayer(playerId) {
+        return fetch(`${sportsApiBaseUrl}/athletes/${playerId}?/lang=en%C2%AEion=us`);
     },
 
     getAllPlayers() {
