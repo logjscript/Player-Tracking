@@ -1,8 +1,8 @@
 const pool = require('./db');
 const queries = require('./queries');
 
-const getPlayers = (req, res) => {
-    pool.query(queries.getPlayers, (error, results) => {
+const getAllPlayers = (req, res) => {
+    pool.query(queries.getAllPlayers, (error, results) => {
         if (error) {
             console.log(error);
             throw error;
@@ -25,7 +25,21 @@ const getPlayerByName = async (req, res) => {
     })
 }
 
+const searchForMatchingPlayers = async (req, res) => {
+    const stringToMatch = req.params.query;
+    console.log(stringToMatch);
+
+    pool.query(queries.searchForMatchingPlayers, [`%${stringToMatch}%`], async(error, results) => {
+        if (results.rows.length === 0 || error) {
+            return res.status(404).send('No players match your search');
+        } else {
+            return res.status(200).json(results.rows);
+        }
+    })
+}
+
 module.exports = {
-    getPlayers,
+    getAllPlayers,
     getPlayerByName,
+    searchForMatchingPlayers,
 };
